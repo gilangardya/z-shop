@@ -32,17 +32,19 @@ $app->get('/', function($req, $res)
 
 function cari_barang($kata) {
     $barang = explode(' ', $kata);
-    // $barang = array_shift($barang);
-    if (count($barang) == 1) {
+    $len = count($barang);
+    if ($len == 1) {
         return 'Tidak ada barang yang dicari';
     } else {
         $result = "";
-        foreach ($barang as $key) {
-            $result .= "Hasil pencarian " . $key . "\n";
-        }
+        $idx = 1;
+        do {
+            $result .= "Hasil pencarian " . $barang[$idx] . "\n";
+            $idx++;
+        } while ($idx < $len);
+
         return $result;
     }
-    
 }
 
 // buat route untuk webhook
