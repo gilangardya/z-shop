@@ -31,7 +31,17 @@ $app->get('/', function($req, $res)
 });
 
 function cari_barang($kata) {
-    return 'Hasil pencarian' . $kata;
+    $barang = explode(' ', $kata);
+    $barang = array_shift($barang);
+    if (count($barang) == 0) {
+        return 'Tidak ada barang yang dicari';
+    } else {
+        $result = "";
+        foreach ($barang as $key) {
+            $result .= "Hasil pencarian " . $key . "\n";
+        }
+    }
+    
 }
 
 // buat route untuk webhook
@@ -66,14 +76,14 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
             {
                 if($event['message']['type'] == 'text')
                 {
-                    $query = explode(" ", $event['message']['text']);
-                    switch ($query[0]) {
+                    $query = strtok($event['message']['text'], " ");
+                    switch ($query) {
                         case '\cari':
-                            $result = $bot->replyText($event['replyToken'], cari_barang($query[1]));
+                            $result = $bot->replyText($event['replyToken'], cari_barang($event['message']['text']));
                             break;
                         
                         default:
-                            $result = $bot->replyText($event['replyToken'], 'Maaf perintah tidak dikenal :)');
+                            $result = $bot->replyText($event['replyToken'], 'Maaf perintah tidak dikenal :))');
                     }
 
                     // if ($event['message']['text'] == '\cari') {
