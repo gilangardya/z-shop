@@ -32,8 +32,8 @@ $app->get('/', function($req, $res)
 
 function cari_barang($kata) {
     $barang = explode(' ', $kata);
-    $barang = array_shift($barang);
-    if (count($barang) == 0) {
+    // $barang = array_shift($barang);
+    if (count($barang) == 1) {
         return 'Tidak ada barang yang dicari';
     } else {
         $result = "";
@@ -79,7 +79,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                 {
                     $query = strtok($event['message']['text'], " ");
                     switch ($query) {
-                        case '\\cari':
+                        case '\cari':
                             $result = $bot->replyText($event['replyToken'], cari_barang($event['message']['text']));
                             break;
                         
