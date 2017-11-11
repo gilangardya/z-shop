@@ -62,11 +62,16 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
             {
                 if($event['message']['type'] == 'text')
                 {
+                    if ($event['message']['text'] == '\cari') {
+                        $result = $bot->replyText($event['replyToken'], 'Mau cari apa?');
+                    } else {
+                        $result = $bot->replyText($event['replyToken'], 'Ini pesan balasan lewat GitHub yang otomatis');
+                    }
                     // send same message as reply to user
                     // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
-                    $result = $bot->replyText($event['replyToken'], 'Ini pesan balasan lewat GitHub yang otomatis');
+                    
      
-                    // or we can use replyMessage() instead to send reply message
+                    // or we can use replyMessage() instead to send reply message0
                     // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
                     // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
      
