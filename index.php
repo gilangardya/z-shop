@@ -30,8 +30,8 @@ $app->get('/', function($req, $res)
   echo "Welcome at Slim Framework";
 });
 
-function cari_barang($result, $kata) {
-    $result = $bot->replyText($event['replyToken'], 'Hasil pencarian');
+function cari_barang($kata) {
+    return 'Hasil pencarian' . $kata;
 }
 
 // buat route untuk webhook
@@ -69,7 +69,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     $query = explode(" ", $event['message']['text']);
                     switch ($query[0]) {
                         case '\cari':
-                            cari_barang($result, $query[1]);
+                            $result = $bot->replyText($event['replyToken'], cari_barang($query[1]));
                             break;
                         
                         default:
