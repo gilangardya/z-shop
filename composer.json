@@ -1,0 +1,16 @@
+{
+    "name": "kelompok-imk/z-shop",
+    "description": "Chatbot for marketplace.",
+    "type": "project",
+    "require": {
+        "php": "^5.6",
+        "slim/slim": "^3.8",
+        "linecorp/line-bot-sdk": "^2.1"
+    },
+    "authors": [
+        {
+            "name": "Gilang",
+            "email": "gilangardyamandala@gmail.com"
+        }
+    ]
+}
