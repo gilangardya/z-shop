@@ -32,17 +32,16 @@ $app->get('/', function($req, $res)
 
 function cari_barang($kata) {
     $barang = explode(' ', $kata);
+    array_shift($barang);
     $len = count($barang);
-    if ($len == 1) {
+    if ($len == 0) {
         return 'Tidak ada barang yang dicari';
     } else {
         $result = "";
-        $idx = 1;
-        do {
+        for ($idx = 0; $idx < $len-1; $idx++) {
             $result .= "Hasil pencarian " . $barang[$idx] . "\n";
-            $idx++;
-        } while ($idx < $len);
-
+        }
+        $result .= "Hasil pencarian " . $barang[$len-1];
         return $result;
     }
 }
