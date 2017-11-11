@@ -40,6 +40,7 @@ function cari_barang($kata) {
         foreach ($barang as $key) {
             $result .= "Hasil pencarian " . $key . "\n";
         }
+        return $result;
     }
     
 }
