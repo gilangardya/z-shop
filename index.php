@@ -79,7 +79,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                 {
                     $query = strtok($event['message']['text'], " ");
                     switch ($query) {
-                        case '\cari':
+                        case '\\cari':
                             $result = $bot->replyText($event['replyToken'], cari_barang($event['message']['text']));
                             break;
                         
