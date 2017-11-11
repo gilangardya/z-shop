@@ -29,7 +29,11 @@ $app->get('/', function($req, $res)
 {
   echo "Welcome at Slim Framework";
 });
- 
+
+function cari_barang($kata) {
+    $result = $bot->replyText($event['replyToken'], 'Hasil pencarian');
+}
+
 // buat route untuk webhook
 $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature)
 {
@@ -62,11 +66,21 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
             {
                 if($event['message']['type'] == 'text')
                 {
-                    if ($event['message']['text'] == '\cari') {
-                        $result = $bot->replyText($event['replyToken'], 'Mau cari apa?');
-                    } else {
-                        $result = $bot->replyText($event['replyToken'], 'Ini pesan balasan lewat GitHub yang otomatis');
+                    $query = explode(" ", $event['message']['text']);
+                    switch ($query[0]) {
+                        case '\cari':
+                            cari_barang($query[1]);
+                            break;
+                        
+                        default:
+                            $result = $bot->replyText($event['replyToken'], 'Maaf perintah tidak dikenal :)');
                     }
+
+                    // if ($event['message']['text'] == '\cari') {
+                    //     $result = $bot->replyText($event['replyToken'], 'Mau cari apa?');
+                    // } else {
+                    //     $result = $bot->replyText($event['replyToken'], 'Ini pesan balasan lewat GitHub yang otomatis');
+                    // }
                     // send same message as reply to user
                     // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
                     
