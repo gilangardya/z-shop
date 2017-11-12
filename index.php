@@ -46,6 +46,10 @@ function cari_barang($kata) {
     }
 }
 
+function deskripsi_barang($kata) {
+    return "";
+}
+
 // buat route untuk webhook
 $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature)
 {
@@ -85,7 +89,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                             break;
                         
                         default:
-                            $result = $bot->replyText($event['replyToken'], 'Maaf perintah tidak dikenal :))');
+                            $result = $bot->replyText($event['replyToken'], 'Maaf perintah tidak dikenal :))) ' . $userId);
                     }
 
                     // if ($event['message']['text'] == '\cari') {
@@ -106,8 +110,15 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
             }
         }
     }
+});
 
-
+$app->get('/profile/{userId}', function($req, $res) use ($bot) {
+    // get user profile
+    $route  = $req->getAttribute('route');
+    $userId = $route->getArgument('userId');
+    $result = $bot->getProfile($userId);
+             
+    return $res->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
 });
  
 $app->run();
