@@ -30,6 +30,9 @@ $app->get('/', function($req, $res)
   echo "Welcome at Slim Framework";
 });
 
+$data = array(
+    )
+
 function cari_barang($kata) {
     $barang = explode(' ', $kata);
     array_shift($barang);
@@ -46,20 +49,48 @@ function cari_barang($kata) {
     }
 }
 
+// Detail pembayaran
+function detail_barang($kata) {
+    $kode = explode(' ', $kata);
+    array_shift($kode);
+    return "Deskripsi pembayaran " . $kode;
+}
+
 function deskripsi_barang($kata) {
-    return "";
+    $kode = explode(' ', $kode);
+    array_shift($kode);
+    return "Deskripsi barang " . $kode;
+}
+
+function bayar_barang($kata) {
+    $kode = explode(' ', $kata);
+    array_shift($kode);
+    return "Membayar barang " . $kode;
+}
+
+function kategori($kata) {
+    $kode = explode(' ', $kata);
+    array_shift($kode);
+    return "Barang-barang dengan kategori " . $kode;
+}
+
+function tambah($kata) {
+    $kode = explode(' ', $kata);
+    array_shift($kode);
+    return "Menambahkan " . $kode . " ke keranjang";
+}
+
+function hapus($kata) {
+    $kode = explode(' ', $kata);
+    array_shift($kode);
+    return "Menghapus " . $kode . " dari keranjang";
+}
+
+function keranjang($kata) {
+    return "Isi keranjang\n    1. FD5412";
 }
 
 // buat route untuk webhook
-$app->get('/profile/{userId}', function($req, $res) use ($bot) {
-    // get user profile
-    $route  = $req->getAttribute('route');
-    $userId = $route->getArgument('userId');
-    $result = $bot->getProfile($userId);
-             
-    return $res->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
-});
-
 $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature)
 {
     // get request body and line signature header
@@ -96,23 +127,31 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                         case '\cari':
                             $result = $bot->replyText($event['replyToken'], cari_barang($event['message']['text']));
                             break;
-                        
+                        case '\bayar':
+                            $result = $bot->replyText($event['replyToken'], bayar_barang($event['message']['text']));
+                            break;
+                        case '\detail':
+                            $result = $bot->replyText($event['replyToken'], detail_barang($event['message']['text']));
+                            break;
+                        case '\deskripsi':
+                            $result = $bot->replyText($event['replyToken'], deskripsi_barang($event['message']['text']));
+                            break;
+                        case '\kategori':
+                            $result = $bot->replyText($event['replyToken'], kategori($event['message']['text']));
+                            break;
+                        case '\tambah':
+                            $result = $bot->replyText($event['replyToken'], tambah($event['message']['text']));
+                            break;
+                        case '\hapus':
+                            $result = $bot->replyText($event['replyToken'], hapus($event['message']['text']));
+                            break;
+                        case '\keranjang':
+                            $result = $bot->replyText($event['replyToken'], keranjang($event['message']['text']));
+                            break;
+
                         default:
                             $result = $bot->replyText($event['replyToken'], 'Maaf perintah tidak dikenal :))) ' . $userId);
                     }
-
-                    // if ($event['message']['text'] == '\cari') {
-                    //     $result = $bot->replyText($event['replyToken'], 'Mau cari apa?');
-                    // } else {
-                    //     $result = $bot->replyText($event['replyToken'], 'Ini pesan balasan lewat GitHub yang otomatis');
-                    // }
-                    // send same message as reply to user
-                    // $result = $bot->replyText($event['replyToken'], $event['message']['text']);
-                    
-     
-                    // or we can use replyMessage() instead to send reply message0
-                    // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
-                    // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
      
                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
                 }
@@ -120,5 +159,14 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
         }
     }
 });
- 
+
+$app->get('/profile/{userId}', function($req, $res) use ($bot) {
+    // get user profile
+    $route  = $req->getAttribute('route');
+    $userId = $route->getArgument('userId');
+    $result = $bot->getProfile($userId);
+             
+    return $res->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
+});
+
 $app->run();
