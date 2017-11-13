@@ -51,25 +51,25 @@ function cari_barang($kata) {
 function detail_barang($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Deskripsi pembayaran " . $kode[0];
+    return "Deskripsi pembayaran " . $kode;
 }
 
 function deskripsi_barang($kata) {
     $kode = explode(' ', $kode);
     array_shift($kode);
-    return "Deskripsi barang " . $kode[0];
+    return "Deskripsi barang " . $kode;
 }
 
 function bayar_barang($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Membayar barang " . $kode[0];
+    return "Membayar barang " . $kode;
 }
 
 function kategori($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Barang-barang dengan kategori " . $kode[0];
+    return "Barang-barang dengan kategori " . $kode;
 }
 
 function tambah($kata) {
@@ -81,11 +81,24 @@ function tambah($kata) {
 function hapus($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Menghapus " . $kode[0] . " dari keranjang";
+    return "Menghapus " . $kode . " dari keranjang";
 }
 
 function keranjang($kata) {
     return "Isi keranjang\n    1. FD5412";
+}
+
+function bantuan(){
+  $result = "/cari _barang : Mencari barang\n" .
+  "/detail _barang : Menampilkan detail pembayaran barang\n" .
+  "/deskripsi _barang : Menampilkan deskripsi barang\n" .
+  "/bayar : Membayar semua barang yang ada di keranjang belanja\n" .
+  "/kategori _kategori : menampilkan daftar barang yang sesuai kategori\n" .
+  "/tambah _barang : Menambahkan barang ke keranjang belanja\n" .
+  "/hapus _barang : Menghapus barang dari keranjang belanja\n" .
+  "/keranjang : Menampilkan daftar barang yang ada di keranjang belanja";
+  return $result;
+
 }
 
 // buat route untuk webhook
@@ -122,29 +135,32 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                 {
                     $query = strtok($event['message']['text'], " ");
                     switch ($query) {
-                        case '\cari':
+                        case '/cari':
                             $result = $bot->replyText($event['replyToken'], cari_barang($event['message']['text']));
                             break;
-                        case '\bayar':
+                        case '/bayar':
                             $result = $bot->replyText($event['replyToken'], bayar_barang($event['message']['text']));
                             break;
-                        case '\detail':
+                        case '/detail':
                             $result = $bot->replyText($event['replyToken'], detail_barang($event['message']['text']));
                             break;
-                        case '\deskripsi':
+                        case '/deskripsi':
                             $result = $bot->replyText($event['replyToken'], deskripsi_barang($event['message']['text']));
                             break;
-                        case '\kategori':
+                        case '/kategori':
                             $result = $bot->replyText($event['replyToken'], kategori($event['message']['text']));
                             break;
-                        case '\tambah':
+                        case '/tambah':
                             $result = $bot->replyText($event['replyToken'], tambah($event['message']['text']));
                             break;
-                        case '\hapus':
+                        case '/hapus':
                             $result = $bot->replyText($event['replyToken'], hapus($event['message']['text']));
                             break;
-                        case '\keranjang':
+                        case '/keranjang':
                             $result = $bot->replyText($event['replyToken'], keranjang($event['message']['text']));
+                            break;
+                        case '/help' :
+                            $result = $bot->replyText($event['replyToken'], bantuan());
                             break;
 
                         default:
