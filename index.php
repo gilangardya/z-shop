@@ -51,25 +51,25 @@ function cari_barang($kata) {
 function detail_barang($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Deskripsi pembayaran " . $kode;
+    return "Deskripsi pembayaran " . $kode[0];
 }
 
 function deskripsi_barang($kata) {
     $kode = explode(' ', $kode);
     array_shift($kode);
-    return "Deskripsi barang " . $kode;
+    return "Deskripsi barang " . $kode[0];
 }
 
 function bayar_barang($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Membayar barang " . $kode;
+    return "Membayar barang " . $kode[0];
 }
 
 function kategori($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Barang-barang dengan kategori " . $kode;
+    return "Barang-barang dengan kategori " . $kode[0];
 }
 
 function tambah($kata) {
@@ -81,7 +81,7 @@ function tambah($kata) {
 function hapus($kata) {
     $kode = explode(' ', $kata);
     array_shift($kode);
-    return "Menghapus " . $kode . " dari keranjang";
+    return "Menghapus " . $kode[0] . " dari keranjang";
 }
 
 function keranjang($kata) {
