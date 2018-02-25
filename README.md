@@ -1,4 +1,5 @@
 # z-shop
-Chatbot for marketplace.
 
-Just push to deploy.
+IF3151 - Human-computer Interaction
+
+Simple LINE chatbot for marketplace.
